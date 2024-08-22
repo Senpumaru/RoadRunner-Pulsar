@@ -1,0 +1,54 @@
+services:
+  pulsar:
+    image: apachepulsar/pulsar:3.3.1
+    container_name: pulsar
+    command: >
+      bash -c "bin/apply-config-from-env.py conf/standalone.conf &&
+               bin/pulsar standalone"
+    environment:
+      PULSAR_MEM: "-Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g"
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    volumes:
+      - pulsardata:/pulsar/data
+      - pulsarconf:/pulsar/conf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/admin/v2/clusters"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
+  pulsar-manager:
+    image: apachepulsar/pulsar-manager:v0.3.0
+    container_name: pulsar-manager
+    ports:
+      - "9527:9527"
+      - "7750:7750"
+    environment:
+      - SPRING_CONFIGURATION_FILE=/pulsar-manager/pulsar-manager/application.properties
+    depends_on:
+      - pulsar
+
+  java-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: java-dev
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - JAVA_HOME=/usr/local/openjdk-17
+    depends_on:
+      - pulsar
+
+volumes:
+  pulsardata:
+  pulsarconf:
+
+networks:
+  default:
+    name: roadrunner-network
+    external: true

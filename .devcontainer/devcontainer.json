@@ -1,0 +1,21 @@
+{
+    "name": "Java Pulsar Development",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "java-dev",
+    "workspaceFolder": "/app",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "java.home": "/usr/local/openjdk-17"
+    },
+    "extensions": [
+        "vscjava.vscode-java-pack",
+        "gabrielbb.vscode-lombok"
+    ],
+    "forwardPorts": [
+        6650,
+        8080,
+        9527,
+        7750
+    ],
+    "postCreateCommand": "apt-get update && apt-get install -y maven"
+}
