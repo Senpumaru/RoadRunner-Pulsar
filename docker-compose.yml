@@ -41,6 +41,7 @@ services:
     working_dir: /app
     environment:
       - JAVA_HOME=/usr/local/openjdk-17
+    user: "${UID}:${GID}"  # Use host user's UID and GID
     depends_on:
       - pulsar
 

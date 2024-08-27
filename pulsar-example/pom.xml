@@ -46,10 +46,54 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <mainClass>com.roadrunner.PulsarProducer</mainClass>
-                </configuration>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>producer</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.roadrunner.PulsarProducer</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stress-test</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.roadrunner.PulsarStressTest</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>request-reply</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.roadrunner.PulsarRequestReply</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>requester</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.roadrunner.ImprovedPulsarRequester</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>responder</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.roadrunner.ImprovedPulsarResponder</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

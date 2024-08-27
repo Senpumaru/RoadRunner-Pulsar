@@ -1,2 +1,6 @@
-com/roadrunner/App.class
+com/roadrunner/PulsarStressTest.class
 com/roadrunner/PulsarProducer.class
+com/roadrunner/ImprovedPulsarRequester.class
+com/roadrunner/App.class
+com/roadrunner/PulsarRequestReply.class
+com/roadrunner/ImprovedPulsarResponder.class

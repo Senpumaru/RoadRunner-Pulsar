@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y \
 # Set up Maven
 ENV MAVEN_HOME /usr/share/maven
 
-# Set up workspace
+# Set up workspace and change ownership
 WORKDIR /app
+
 
 # Keep the container running
 CMD ["tail", "-f", "/dev/null"]

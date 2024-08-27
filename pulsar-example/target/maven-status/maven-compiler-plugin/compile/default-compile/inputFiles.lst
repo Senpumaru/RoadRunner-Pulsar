@@ -1,2 +1,6 @@
+/app/pulsar-example/src/main/java/com/roadrunner/ImprovedPulsarRequester.java
 /app/pulsar-example/src/main/java/com/roadrunner/App.java
+/app/pulsar-example/src/main/java/com/roadrunner/PulsarRequestReply.java
+/app/pulsar-example/src/main/java/com/roadrunner/PulsarStressTest.java
+/app/pulsar-example/src/main/java/com/roadrunner/ImprovedPulsarResponder.java
 /app/pulsar-example/src/main/java/com/roadrunner/PulsarProducer.java
