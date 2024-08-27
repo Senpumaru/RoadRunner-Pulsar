@@ -2,69 +2,112 @@
 
 This repository contains the Apache Pulsar implementation for the RoadRunner project. It's responsible for handling streaming and response-reply systems.
 
-## Current State
+This project contains various tests and examples for Apache Pulsar, including a producer, stress test, request-reply pattern, and separate requester and responder implementations.
 
-The repository currently includes a basic Pulsar producer implementation. The main class, `PulsarProducer`, is located in `src/main/java/com/roadrunner/PulsarProducer.java`.
-
-### Features
-
-- Connects to a Pulsar cluster
-- Creates a producer for a specified topic
-- Sends messages to the topic
-- Implements `AutoCloseable` for proper resource management
 
 ## Prerequisites
 
-- Docker and Docker Compose (for running Pulsar locally)
+- Java 17 or later
+- Maven 3.6 or later
+- Docker and Docker Compose (for running Pulsar)
 
-## Setup
+## Pulsar Setup
 
-1. Clone the repository:
-   ```
-   git clone git@github.com:Senpumaru/RoadRunner-Pulsar.git
-   cd RoadRunner-Pulsar
-   ```
+1. Create a `docker-compose.yml` file in your project root with the following content:
 
-2. Start the Pulsar cluster using Docker Compose:
-   ```
-   docker compose up --build -d
-   ```
+```yaml
+version: '3'
+services:
+  pulsar:
+    image: apachepulsar/pulsar:3.3.1
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    environment:
+      - PULSAR_MEM=" -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g"
+    command: bin/pulsar standalone
 
-## Building the Project
-
-To build the project, run:
-
-```
-mvn clean package
-```
-
-This command compiles the code, runs tests, and packages the application into a JAR file.
-
-## Running the Application
-
-To run the Pulsar producer, use the following Maven command:
-
-```
-mvn exec:java -Dexec.mainClass="com.roadrunner.PulsarProducer"
+networks:
+  default:
+    name: pulsar-network
 ```
 
-This command will execute the `main` method in the `PulsarProducer` class, which sends a "Hello, Pulsar!" message to the "my-topic" topic.
+2. Start Pulsar using Docker Compose:
 
-## Configuration
+```bash
+docker-compose up -d
+```
 
-The Pulsar producer is currently configured to connect to `pulsar://pulsar:6650`. If you're running Pulsar on a different address, update the service URL in the `PulsarProducer` class.
+## Project Configuration
 
-## Next Steps
+Ensure your `pom.xml` file contains the necessary dependencies and plugin configurations as shown in the provided `pom.xml` file.
 
-- Implement a Pulsar consumer to read messages from topics
-- Add more complex message processing logic
-- Implement error handling and retry mechanisms
-- Create integration tests
+## Running the Tests
 
-## Contributing
+Before running any tests, make sure to compile the project:
 
-Please read `CONTRIBUTING.md` for details on our code of conduct and the process for submitting pull requests.
+```bash
+mvn clean compile
+```
 
-## License
+### 1. Pulsar Producer
 
-This project is licensed under the [insert your license here] - see the `LICENSE.md` file for details.
+Run the basic Pulsar producer:
+
+```bash
+mvn exec:java@producer
+```
+
+### 2. Stress Test
+
+Run the Pulsar stress test:
+
+```bash
+mvn exec:java@stress-test
+```
+
+### 3. Request-Reply Pattern
+
+Run the request-reply example:
+
+```bash
+mvn exec:java@request-reply
+```
+
+### 4. Improved Requester
+
+Run the improved Pulsar requester:
+
+```bash
+mvn exec:java@requester
+```
+
+### 5. Improved Responder
+
+Run the improved Pulsar responder:
+
+```bash
+mvn exec:java@responder
+```
+
+## Notes
+
+- Ensure that the Pulsar service is running and accessible at `pulsar://pulsar:6650` before running the tests.
+- The requester and responder should be run simultaneously in separate terminal windows for the request-reply pattern to work correctly.
+- Adjust the Pulsar connection URL in the Java files if your Pulsar setup differs from the default (`pulsar://pulsar:6650`).
+
+## Troubleshooting
+
+- If you encounter connection issues, ensure that the Pulsar container is running and that your Java application can reach it through the Docker network.
+- Check the logs of the Pulsar container for any startup issues:
+  ```bash
+  docker-compose logs pulsar
+  ```
+- Verify that the correct ports are exposed and accessible on your host machine.
+
+## Further Resources
+
+- [Apache Pulsar Documentation](https://pulsar.apache.org/docs/en/standalone/)
+- [Pulsar Java Client Documentation](https://pulsar.apache.org/docs/en/client-libraries-java/)
+
+For any additional questions or issues, please refer to the official Apache Pulsar documentation or seek help in the Pulsar community forums.
